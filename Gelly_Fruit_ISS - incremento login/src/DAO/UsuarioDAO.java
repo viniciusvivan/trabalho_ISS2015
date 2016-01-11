@@ -168,21 +168,20 @@ public class UsuarioDAO {
         return usu;
 
     }
-   
-    /*
-    public static boolean login(String login, String senha){
-        Conexao conecta = new Conexao();
-        conecta.conexao();  
-        Usuarios usuario = new Usuarios();
-        conecta.executaSQL("SELECT COUNT(*) FROM usuario WHERE user_usuario = " + login);
-        if(conecta.rs.equals(1)){
-            return true;
-        }else{
-            return false;
-        }    
-    }
-*/
-
-
     
+    public static boolean login(String login, String senha) throws SQLException{
+        Conexao conecta = new Conexao();
+        conecta.conexao();
+        int cont = 0;
+        String sql = "SELECT * FROM iss.usuario WHERE user_usuario = '" + login + "' AND senha_usuario = '" + senha + "'";
+        conecta.executaSQL(sql);
+        while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
+            cont += 1;
+        }
+        if(cont != 0){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -146,8 +146,8 @@ public class VLogin extends javax.swing.JFrame {
         initComponents();
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*Usuarios user = new Usuarios();
-        String senha = new String(pswsenha.getPassword()); 
+        Usuarios user = new Usuarios();
+        String senha = new String(pswsenha.getPassword());
         if(user.login(txtusuario.getText(), senha)){
             VPrincipal FrmPri = new VPrincipal();
             FrmPri.setVisible(true);
@@ -155,8 +155,7 @@ public class VLogin extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null,"Login ou senha inválidos");
             txtusuario.requestFocus();
-        }
-       */                  
+        }                  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

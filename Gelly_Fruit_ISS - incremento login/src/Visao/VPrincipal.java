@@ -447,7 +447,7 @@ public class VPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {//cria sozinho
             @Override
             public void run() {
-                new VPrincipal().setVisible(true);
+                new VLogin().setVisible(true);
                 //getInstancia().setVisible(true);
             }
         });

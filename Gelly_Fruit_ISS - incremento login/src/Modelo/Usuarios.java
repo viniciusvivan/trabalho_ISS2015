@@ -2,7 +2,7 @@ package Modelo;
 
 /**
 * Classe que gera os objetos do tipo Usuarios()
-* e também é reponsavel por solicitar informações ao blanco de dados
+* e também é reponsavel por solicitar informações ao banco de dados
 * via classe UsuarioDAO().
 * 
 * @author Vinicius Vivan
@@ -213,7 +213,7 @@ public class Usuarios {
         return UsuarioDAO.PesquisaObjeto(nomeCampo,Valor); 
     }
 
-    /*public static boolean login(String login,String senha){
+    public static boolean login(String login,String senha){
         return UsuarioDAO.login(login, senha);
-    }*/
+    }
 }

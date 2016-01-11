@@ -172,7 +172,7 @@ public class BuscaCliente extends javax.swing.JInternalFrame{
         if(linha == -1){
             JOptionPane.showMessageDialog(rootPane,"Selecione o Resgisto Desejado !","Erro ao Consultar Cadastro",JOptionPane.INFORMATION_MESSAGE);
         } else{
-            int Codigo = Integer.valueOf(tabelaCliente.getValueAt(linha, 0).toString());        
+            int Codigo = Integer.valueOf(tabelaCliente.getValueAt(linha, 0).toString());    
             
             cadcli.PreencheCampos(Codigo);
             this.setVisible(false);
