@@ -4,7 +4,10 @@ import Controle.CUsuario;
 import Modelo.Usuarios;
 import Modelo.Valida;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
@@ -148,14 +151,18 @@ public class VLogin extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Usuarios user = new Usuarios();
         String senha = new String(pswsenha.getPassword());
-        if(user.login(txtusuario.getText(), senha)){
-            VPrincipal FrmPri = new VPrincipal();
-            FrmPri.setVisible(true);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null,"Login ou senha inválidos");
-            txtusuario.requestFocus();
-        }                  
+        try {
+            if(user.login(txtusuario.getText(), senha)){
+                VPrincipal FrmPri = new VPrincipal();
+                FrmPri.setVisible(true);
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(null,"Login ou senha inválidos");
+                txtusuario.requestFocus();                  
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

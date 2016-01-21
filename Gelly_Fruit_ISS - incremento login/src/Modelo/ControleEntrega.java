@@ -124,5 +124,9 @@ public class ControleEntrega {
     public void Atualiza(int codigo) {
         ControleEntregaDAO.Atualiza(codigo);
     }
+
+    public void Insere_PedidoEntregue(int codigo) {
+        ControleEntregaDAO.Insere_PedidoEntregue(codigo);
+    }
     
 }

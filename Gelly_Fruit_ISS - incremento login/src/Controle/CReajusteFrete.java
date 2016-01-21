@@ -8,7 +8,11 @@ package Controle;
 
 import Modelo.Clientes;
 import Modelo.ReajusteFrete;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
@@ -42,7 +46,7 @@ public class CReajusteFrete {
     
     }
 
-    public DefaultTableModel PesquisaObjeto(DefaultTableModel ModeloTabela) {
+    public DefaultTableModel PesquisaObjeto(DefaultTableModel ModeloTabela) throws ParseException {
        ArrayList<ReajusteFrete> ReajusteFrete = this.objReajusteFrete.RecuperaObjetos();
         
         //preenche a tabela com os dados retornados
@@ -54,7 +58,7 @@ public class CReajusteFrete {
             objDistribuicaoBuffer = ReajusteFrete.get(i);            
 
             vetVetor.addElement(objDistribuicaoBuffer.getPercentual());
-            vetVetor.addElement(objDistribuicaoBuffer.getData());
+            vetVetor.addElement(Converte_Data(objDistribuicaoBuffer.getData().toString()));
 
             ModeloTabela.addRow(vetVetor);
         }
@@ -64,13 +68,15 @@ public class CReajusteFrete {
     public void Reajuste(Double valor) {
         //busca o valor do frete dos clientes        
         this.objReajusteFrete.Reajuste(valor);
-       
-
-       
-        
     }
-
-    
-    
+       
+    private static String Converte_Data(String data) throws ParseException { 
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = inputFormat.parse(data);
+        String outputDateStr = outputFormat.format(date);
+        return outputDateStr;	
+    }      
+      
     
 }

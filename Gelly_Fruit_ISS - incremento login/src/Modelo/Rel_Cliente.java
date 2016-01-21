@@ -20,7 +20,7 @@ public class Rel_Cliente {
     String cpf;
     String cidade;
     String telefone;
-    int status;
+    String status;
     double frete;
 
     public int getId_Cliente() {
@@ -63,11 +63,11 @@ public class Rel_Cliente {
         this.telefone = telefone;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -80,7 +80,7 @@ public class Rel_Cliente {
     }
 
     public ArrayList<Rel_Cliente> RecuperaObjetos(String Campo, String Valor) {
-    String nomeCampo;
+        String nomeCampo;
         if (Campo.equals("0")){
             nomeCampo = "NOME_CLIENTE";
         }
@@ -90,6 +90,12 @@ public class Rel_Cliente {
         
         else{
             nomeCampo = "STATUS_CLIENTE";
+            if(Valor.equals("ATIVO")){
+                Valor = "0";
+            }
+            else{
+                Valor = "1";
+            }
         }      
         return Rel_ClienteDAO.PesquisaObjeto(nomeCampo,Valor);  
     }

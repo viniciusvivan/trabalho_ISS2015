@@ -27,20 +27,21 @@ public class EstornoPedidoDAO {
         
         ArrayList<EstornoPedido> est = new ArrayList<EstornoPedido>();
         
-        conecta.executaSQL("SELECT id_venda, data_venda, nome_cliente, valortotal_venda, nome_distribuicao " +
-                           "FROM venda, distribuicao, cliente " +
-                           "where entrega_venda = id_distribuicao " +
+        conecta.executaSQL("SELECT id_venda, data_pedidoentregue, nome_cliente, valortotal_venda, nome_distribuicao " +
+                           "FROM venda, distribuicao, cliente, pedido_entregue " +
+                           "where id_venda = cod_pedido " + 
+                           "and entrega_venda = id_distribuicao " +
                            "and cod_cliente = id_cliente " +
                            "and status_venda = 2 " +
                            "and " + nomeCampo + " = " + Valor +
-                           " order by id_venda");
+                           " order by data_pedidoentregue");
               
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
                 EstornoPedido estorno = new EstornoPedido();
                
                 estorno.setCod_Pedido(conecta.rs.getInt("id_venda"));
-                estorno.setData_fechamento(conecta.rs.getString("data_venda"));
+                estorno.setData_fechamento(conecta.rs.getString("data_pedidoentregue"));
                 estorno.setNome_cliente(conecta.rs.getString("nome_cliente"));
                 estorno.setValor_total(conecta.rs.getDouble("valortotal_venda"));
                 estorno.setForma_entrega(conecta.rs.getString("nome_distribuicao"));

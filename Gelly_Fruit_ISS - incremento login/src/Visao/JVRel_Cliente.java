@@ -51,6 +51,11 @@ public class JVRel_Cliente extends javax.swing.JInternalFrame {
         jLabel1.setText("Nome / Cidade / Status:");
 
         CmbtipoRel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Cidade", "Status" }));
+        CmbtipoRel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbtipoRelActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Descrição: ");
 
@@ -189,6 +194,10 @@ public class JVRel_Cliente extends javax.swing.JInternalFrame {
     private void btmSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmSairActionPerformed
         this.dispose();//fecha a tela
     }//GEN-LAST:event_btmSairActionPerformed
+
+    private void CmbtipoRelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbtipoRelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbtipoRelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

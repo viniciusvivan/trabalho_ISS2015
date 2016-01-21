@@ -10,10 +10,13 @@ import Banco.Conexao;
 import Modelo.ControleEntrega;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -22,26 +25,28 @@ import javax.swing.JOptionPane;
 public class ControleEntregaDAO {
 
     public static ArrayList<ControleEntrega> PesquisaObjeto() {
-    //select do carrega tabela
+        //select do carrega tabela
+        System.out.println("aki");
         Conexao conecta = new Conexao();
         conecta.conexao();
         
         ArrayList<ControleEntrega> entrega = new ArrayList<ControleEntrega>();
         
         conecta.executaSQL("SELECT id_venda, valortotal_venda, id_cliente, " +
-                           "nome_distribuicao, pagamento_venda, nome_cliente " +
+                           "NOME_DISTRIBUICAO, pagamento_venda, nome_cliente " +
                            "FROM venda, distribuicao, cliente " +
                            "where entrega_venda = id_distribuicao " +
-                           "and cod_cliente = id_cliente " +
-                           "and status_venda = 1 order by ID_DISTRIBUICAO");
+                           "and id_cliente = cod_cliente " +
+                           "and status_venda = 1 order by id_venda");
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
+                System.out.println("aki while");
                 ControleEntrega contentrega = new ControleEntrega();
                
                 contentrega.setPedido(conecta.rs.getInt("id_venda"));
                 contentrega.setNome_cliente(conecta.rs.getString("nome_cliente"));
                 contentrega.setValor(conecta.rs.getDouble("valortotal_venda"));
-                contentrega.setEntrega(conecta.rs.getString("nome_distribuicao"));
+                contentrega.setEntrega(conecta.rs.getString("NOME_DISTRIBUICAO"));
                 contentrega.setPagto(conecta.rs.getString("pagamento_venda"));
                 contentrega.setCod_cliente(conecta.rs.getInt("id_cliente"));
 
@@ -66,19 +71,18 @@ public class ControleEntregaDAO {
         
         ArrayList<ControleEntrega> entrega = new ArrayList<ControleEntrega>();
         
-        conecta.executaSQL("SELECT v.cod_produto, v.quantidade_venda, " +
-                           "v.valorprod_venda, v.valortotal_venda, p.desc_produto " +
-                           "FROM venda as v,produto as p " +
-                           "where v.cod_produto = p.cod_produto " +
-                           "and v.id_venda = " + codigo + " order by v.cod_produto");
+        conecta.executaSQL("SELECT i.id_produto, i.quantidade, " +
+                           "p.preco_produto, p.desc_produto " +
+                           "FROM produto as p, produtos_venda i " +
+                           "where i.id_produto = p.cod_produto " +
+                           "and i.id_venda = " + codigo + " order by i.id_produto");
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
                 ControleEntrega contentrega = new ControleEntrega();
                
-                contentrega.setCod_produto(conecta.rs.getInt("v.cod_produto"));
-                contentrega.setQuantidade_venda(conecta.rs.getDouble("v.quantidade_venda"));
-                contentrega.setValorprod_venda(conecta.rs.getDouble("v.valorprod_venda"));
-                contentrega.setValortotal_venda(conecta.rs.getDouble("v.valortotal_venda"));
+                contentrega.setCod_produto(conecta.rs.getInt("i.id_produto"));
+                contentrega.setQuantidade_venda(conecta.rs.getDouble("i.quantidade"));
+                contentrega.setValorprod_venda(conecta.rs.getDouble("p.preco_produto"));
                 contentrega.setDesc_produto(conecta.rs.getString("p.desc_produto"));
 
                 
@@ -106,5 +110,30 @@ public class ControleEntregaDAO {
         }      
         conecta.desconecta();
     }
+
+    public static void Insere_PedidoEntregue(int codigo) {
+        
+        String data_hoje = null;
+        data_hoje = getDateTime();
+        
+        Conexao conecta = new Conexao();
+        conecta.conexao();
+        try {
+            PreparedStatement pst = conecta.conn.prepareStatement("insert into pedido_entregue(cod_pedido, data_pedidoentregue) values(?,?) ");
+            pst.setInt(1, codigo);
+            pst.setString(2, data_hoje);
+            pst.execute();            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Erro!\n"+ ex);
+        }
+        conecta.desconecta();
+    }
     
+    private static String getDateTime() { 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+        Date date = new Date(); 
+        return dateFormat.format(date);
+    }
+
+   
 }

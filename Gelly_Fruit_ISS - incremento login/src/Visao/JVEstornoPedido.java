@@ -104,6 +104,11 @@ public class JVEstornoPedido extends javax.swing.JInternalFrame {
         jLabel4.setText("Dados do Pedido:");
 
         cbxBusca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Códido do Pedido", "Código do Cliente" }));
+        cbxBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxBuscaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,7 +167,6 @@ public class JVEstornoPedido extends javax.swing.JInternalFrame {
 
     private void btmBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmBuscarActionPerformed
         // botão BUSCAR (lupa)
-        
         if(txtCampo.getText() == null || txtCampo.getText().trim().equals("") ){
             JOptionPane.showMessageDialog(null,"Informe um Valor para a Busca!","",JOptionPane.INFORMATION_MESSAGE);           
         }else{
@@ -228,6 +232,10 @@ public class JVEstornoPedido extends javax.swing.JInternalFrame {
             LimpaCampos();
         }
     }//GEN-LAST:event_txtCampoKeyPressed
+
+    private void cbxBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxBuscaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxBuscaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

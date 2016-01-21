@@ -157,8 +157,8 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
                         .addGap(58, 58, 58))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -226,12 +226,17 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BotaoConcluir)
+                .addGap(37, 37, 37)
+                .addComponent(BotaoSair)
+                .addGap(47, 47, 47))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 678, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(BotaoAtualizar)
                         .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
@@ -240,13 +245,10 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BotaoConcluir)
-                .addGap(37, 37, 37)
-                .addComponent(BotaoSair)
-                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +259,9 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BotaoAtualizar)
-                .addGap(13, 13, 13)
+                .addGap(32, 32, 32)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotaoSair)
                     .addComponent(BotaoConcluir))
@@ -293,7 +295,7 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
             txtCod.setText(tabelaPedidos.getValueAt(linha, 0).toString());
             txtNome.setText(tabelaPedidos.getValueAt(linha,2).toString());
             
-            
+            //PRECISA DA TABELA
             ConsultaItens();           
                         
             CCliente ccliente = new CCliente();
@@ -315,6 +317,7 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
         }else{
             CControleEntrega centrega = new CControleEntrega();
             centrega.Atualiza(Integer.parseInt(txtCod.getText()));
+            centrega.Insere_PedidoEntregue(Integer.parseInt(txtCod.getText()));
             JOptionPane.showMessageDialog(null,"Pedido Dado Baixa !","",JOptionPane.INFORMATION_MESSAGE);
             Carrega_Tabela_Pedidos();
             LimpaCampos();

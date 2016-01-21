@@ -11,6 +11,7 @@ package Modelo;
 */
 
 import DAO.UsuarioDAO;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -213,7 +214,7 @@ public class Usuarios {
         return UsuarioDAO.PesquisaObjeto(nomeCampo,Valor); 
     }
 
-    public static boolean login(String login,String senha){
+    public static boolean login(String login,String senha) throws SQLException{
         return UsuarioDAO.login(login, senha);
     }
 }

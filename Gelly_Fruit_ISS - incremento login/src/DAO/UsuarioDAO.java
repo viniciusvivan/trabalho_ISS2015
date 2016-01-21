@@ -173,7 +173,7 @@ public class UsuarioDAO {
         Conexao conecta = new Conexao();
         conecta.conexao();
         int cont = 0;
-        String sql = "SELECT * FROM iss.usuario WHERE user_usuario = '" + login + "' AND senha_usuario = '" + senha + "'";
+        String sql = "SELECT * FROM usuario WHERE user_usuario = '" + login + "' AND senha_usuario = '" + senha + "'";
         conecta.executaSQL(sql);
         while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
             cont += 1;

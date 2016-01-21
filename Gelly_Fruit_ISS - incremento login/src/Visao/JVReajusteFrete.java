@@ -8,8 +8,14 @@ package Visao;
 
 import Controle.CReajusteFrete;
 import java.awt.Dimension;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -135,23 +141,20 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
+                            .addComponent(jLabel2))
+                        .addGap(30, 30, 30))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(btmAtualizar)))
-                .addGap(30, 30, 30)
+                        .addComponent(btmAtualizar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDataActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         this.dispose();//fecha a tela
@@ -165,25 +168,35 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Informe o Percentual de Reajuste!","Alerta",JOptionPane.INFORMATION_MESSAGE);
             txtPercentual.requestFocus();
         }
-        else
-        {
+        else if(txtData.getText().equals("  /  /    ")){
+            System.out.println("data em branco ");
+            JOptionPane.showMessageDialog(null,"Data em Branco!","Alerta",JOptionPane.INFORMATION_MESSAGE);
+            txtData.requestFocus();
+        }
+        else {
+            System.out.println("else ");
             ArrayList<String> Registro = new ArrayList<String>();
-
+                   
             Registro.add(txtPercentual.getText());
-            Registro.add(txtData.getText());
+            try {
+                Registro.add(Converte_Data(txtData.getText().toString()));
+            } catch (ParseException ex) {
+                Logger.getLogger(JVReajusteFrete.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
             
             CReajusteFrete creajuste = new CReajusteFrete();
             creajuste.Novo(Registro);
 
             //tirar essa linha de baixo
             JOptionPane.showMessageDialog(null,"Reajuste Realiazado com Sucesso !","Reajustado",JOptionPane.INFORMATION_MESSAGE);
-            //LimpaCampos();
+            LimpaCampos();
             Carrega_Tabela();
         }
         
         //função que faz o reajuste no cadastro dos clientes
-        Double valor = Double.parseDouble(txtPercentual.getText());
-        
+        Double valor = Double.parseDouble(txtPercentual.getText());        
         CReajusteFrete cfrete = new CReajusteFrete();
         cfrete.Reajuste(valor);
         
@@ -192,6 +205,10 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_btmAtualizarActionPerformed
+
+    private void txtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDataActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -220,7 +237,11 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
         
         //criando o controller da aplicação para efetuar a chamada da consulta
         CReajusteFrete CntrlDistribuicao = new CReajusteFrete();
-        objTabela = CntrlDistribuicao.PesquisaObjeto(objTabela);
+        try {
+            objTabela = CntrlDistribuicao.PesquisaObjeto(objTabela);
+        } catch (ParseException ex) {
+            Logger.getLogger(JVReajusteFrete.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //atribuindo tabela ao JTable
         tabelaReajuste.setModel(objTabela); 
@@ -238,4 +259,12 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
         Dimension d = this.getDesktopPane().getSize();  
         this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
     }  
+    
+    private static String Converte_Data(String data) throws ParseException { 
+        DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = inputFormat.parse(data);
+        String outputDateStr = outputFormat.format(date);
+        return outputDateStr;	
+    }
 }

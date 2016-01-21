@@ -32,6 +32,7 @@ import net.sf.jasperreports.view.JasperViewer;*/
 public class Rel_ClienteDAO {
 
     public static ArrayList<Rel_Cliente> PesquisaObjeto(String nomeCampo, String Valor) {
+        String status;
         Conexao conecta = new Conexao();
         conecta.conexao();
         
@@ -41,11 +42,21 @@ public class Rel_ClienteDAO {
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
                 Rel_Cliente cliente = new Rel_Cliente();
+                
+                status = conecta.rs.getString("STATUS_CLIENTE");
+                if(status.equals("0")){
+                    System.out.println("ativo");
+                    status = "ativo";
+                }
+                else{
+                    System.out.println("inativo");
+                    status = "inativo";
+                }
                
                 cliente.setId_Cliente(conecta.rs.getInt("ID_CLIENTE"));
                 cliente.setNome(conecta.rs.getString("NOME_CLIENTE"));
                 cliente.setCpf(conecta.rs.getString("CPF_CLIENTE"));
-                cliente.setStatus(conecta.rs.getInt("STATUS_CLIENTE"));
+                cliente.setStatus(status);
                 cliente.setTelefone(conecta.rs.getString("TEL_CLIENTE"));
                 cliente.setFrete(conecta.rs.getDouble("FRETE_CLIENTE"));
                 

@@ -62,7 +62,7 @@ public class CControleEntrega {
             vetVetor.addElement(String.valueOf(objDistribuicaoBuffer.getDesc_produto()));
             vetVetor.addElement(String.valueOf(objDistribuicaoBuffer.getQuantidade_venda()));
             vetVetor.addElement(String.valueOf(objDistribuicaoBuffer.getValorprod_venda()));
-            vetVetor.addElement(String.valueOf(objDistribuicaoBuffer.getValortotal_venda()));
+            vetVetor.addElement(String.valueOf(objDistribuicaoBuffer.getQuantidade_venda() * objDistribuicaoBuffer.getValorprod_venda()));
 
             ModeloTabela.addRow(vetVetor);
         }
@@ -71,6 +71,10 @@ public class CControleEntrega {
 
     public void Atualiza(int codigo) {  
         this.objEntrega.Atualiza(codigo);
+    }
+
+    public void Insere_PedidoEntregue(int codigo) {
+        this.objEntrega.Insere_PedidoEntregue(codigo);
     }
 
 

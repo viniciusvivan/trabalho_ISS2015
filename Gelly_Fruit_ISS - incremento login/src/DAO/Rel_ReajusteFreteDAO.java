@@ -40,7 +40,7 @@ public class Rel_ReajusteFreteDAO {
                 if (dataini != null){
                     Sql = Sql + " where DATA_REAJUSTEFRETE >= '" + dataini + "'" +
                                 " and DATA_REAJUSTEFRETE <= '" + datafim + "'";        
-                }                 
+                }              
         
         conecta.executaSQL(Sql);        
        try {

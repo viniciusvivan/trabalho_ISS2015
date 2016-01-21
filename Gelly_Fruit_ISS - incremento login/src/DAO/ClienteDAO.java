@@ -16,7 +16,7 @@ public class ClienteDAO {
         Conexao conecta = new Conexao();
         conecta.conexao();
         try {
-            PreparedStatement pst = conecta.conn.prepareStatement("insert into cliente(NOME_CLIENTE, RG_CLIENTE, CPF_CLIENTE, RUA_CLIENTE, BAIRRO_CLIENTE, CIDADE_CLIENTE, ESTADO_CLIENTE, CEP_CLIENTE, PAIS_CLIENTE, COMPL_CLIENTE, TEL_CLIENTE, CEL_CLIENTE, EMAIL_CLIENTE, STATUS_CLIENTE, FRETE_CLIENTE) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+            PreparedStatement pst = conecta.conn.prepareStatement("insert into cliente(NOME_CLIENTE, RG_CLIENTE, CPF_CLIENTE, RUA_CLIENTE, BAIRRO_CLIENTE, CIDADE_CLIENTE, ESTADO_CLIENTE, CEP_CLIENTE, PAIS_CLIENTE, COMPL_CLIENTE, TEL_CLIENTE, CEL_CLIENTE, EMAIL_CLIENTE, STATUS_CLIENTE, FRETE_CLIENTE, STATUS_EXCLUSAO) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
             pst.setString(1, cliente.getNome());
             pst.setString(2, cliente.getRg());
             pst.setString(3, cliente.getCpf());
@@ -32,6 +32,7 @@ public class ClienteDAO {
             pst.setString(13, cliente.getEmail());
             pst.setInt(14, cliente.getStatus());
             pst.setDouble(15, cliente.getFrete());
+            pst.setInt(16, 0);
             pst.execute();            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro!\n"+ ex);
@@ -68,16 +69,18 @@ public class ClienteDAO {
     }
 
 
-    public static Clientes Excluir(Clientes cliente) {
+    public static Clientes Excluir(Clientes cliente) { 
+        //botao Escluir
         Conexao conecta = new Conexao();
         conecta.conexao(); 
         try {
-            PreparedStatement pst = conecta.conn.prepareStatement("delete from cliente where id_cliente = ?");
-            pst.setInt(1, cliente.getId_Cliente());
+            PreparedStatement pst = conecta.conn.prepareStatement("update cliente set STATUS_EXCLUSAO=? where ID_CLIENTE = ?");
+            pst.setInt(1, 1);
+            pst.setInt(2, cliente.getId_Cliente());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Usuarios.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(null,"Erro!\n"+ ex);
+        }      
         conecta.desconecta();
         return null;
     }
@@ -88,7 +91,7 @@ public class ClienteDAO {
         Conexao conecta = new Conexao();
         conecta.conexao();  
         
-        conecta.executaSQL("select * from cliente where ID_CLIENTE = " + codigo);
+        conecta.executaSQL("select * from cliente where ID_CLIENTE = " + codigo + " AND STATUS_EXCLUSAO = 0");
         
         ArrayList<Clientes> cli = new ArrayList<Clientes>();
         
@@ -154,7 +157,7 @@ public class ClienteDAO {
         
         ArrayList<Clientes> cli = new ArrayList<Clientes>();
         
-        conecta.executaSQL("SELECT ID_CLIENTE, NOME_CLIENTE, CPF_CLIENTE, STATUS_CLIENTE, RUA_CLIENTE, TEL_CLIENTE FROM CLIENTE WHERE " + nomeCampo + " LIKE '" + Valor + "%'");
+        conecta.executaSQL("SELECT ID_CLIENTE, NOME_CLIENTE, CPF_CLIENTE, STATUS_CLIENTE, RUA_CLIENTE, TEL_CLIENTE FROM CLIENTE WHERE " + nomeCampo + " LIKE '" + Valor + "%' AND STATUS_EXCLUSAO = 0");
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
                 Clientes cliente = new Clientes();
@@ -200,3 +203,4 @@ public class ClienteDAO {
     
     }
 }
+

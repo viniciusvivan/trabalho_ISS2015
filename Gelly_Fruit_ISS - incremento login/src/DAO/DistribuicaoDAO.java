@@ -16,9 +16,10 @@ public class DistribuicaoDAO {
         Conexao conecta = new Conexao();
         conecta.conexao();
         try {
-            PreparedStatement pst = conecta.conn.prepareStatement("insert into distribuicao (nome_Distribuicao, status_Distribuicao) values(?,?) ");
+            PreparedStatement pst = conecta.conn.prepareStatement("insert into distribuicao (nome_Distribuicao, status_Distribuicao, STATUS_EXCLUSAO) values(?,?,?) ");
             pst.setString(1, distribuicao.getNome());     
             pst.setInt(2, distribuicao.getStatus());  
+            pst.setInt(3, 0); 
             pst.execute();            
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,"Erro!\n"+ ex);
@@ -47,15 +48,15 @@ public class DistribuicaoDAO {
         Conexao conecta = new Conexao();
         conecta.conexao(); 
         try {
-            PreparedStatement pst = conecta.conn.prepareStatement("delete from DISTRIBUICAO where ID_DISTRIBUICAO = ?");
-            pst.setInt(1, distribuicao.getId_Distribuicao());
+            PreparedStatement pst = conecta.conn.prepareStatement("update DISTRIBUICAO set STATUS_EXCLUSAO=? where ID_DISTRIBUICAO = ?");
+            pst.setInt(1, 1);
+            pst.setInt(2, distribuicao.getId_Distribuicao());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(Distribuicoes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            conecta.desconecta();
-            return null;
-          
+            JOptionPane.showMessageDialog(null,"Erro!\n"+ ex);
+        }      
+        conecta.desconecta();
+        return null;                 
     }
 
 
@@ -66,7 +67,7 @@ public class DistribuicaoDAO {
         
         ArrayList<Distribuicoes> dis = new ArrayList<Distribuicoes>();
         
-        conecta.executaSQL("SELECT ID_DISTRIBUICAO, NOME_DISTRIBUICAO, STATUS_DISTRIBUICAO FROM DISTRIBUICAO" + " order by ID_DISTRIBUICAO");
+        conecta.executaSQL("SELECT ID_DISTRIBUICAO, NOME_DISTRIBUICAO, STATUS_DISTRIBUICAO FROM DISTRIBUICAO WHERE STATUS_EXCLUSAO = 0" + " order by ID_DISTRIBUICAO");
         try {
             while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
                 Distribuicoes distribuicao = new Distribuicoes();

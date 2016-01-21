@@ -102,6 +102,11 @@ public class JVRel_ReajusteFrete extends javax.swing.JInternalFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtDataIni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDataIniActionPerformed(evt);
+            }
+        });
 
         try {
             txtDataFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
@@ -193,6 +198,8 @@ public class JVRel_ReajusteFrete extends javax.swing.JInternalFrame {
         Parametros.add(txtDataIni.getText());
         Parametros.add(txtDataFim.getText()); 
         
+        System.out.println("AKI.." + txtDataIni.getText() );       
+        
         //criando a estrutura da tabela
         Vector<String> vColunas = new Vector<String>();
         vColunas = pegaColunasDaGrade();//função que reotrnar quais são as colunas da tabela
@@ -207,6 +214,10 @@ public class JVRel_ReajusteFrete extends javax.swing.JInternalFrame {
         //atribuindo tabela ao JTable
         tabelaRelAjust.setModel(objTabela);
     }//GEN-LAST:event_tbmOKActionPerformed
+
+    private void txtDataIniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataIniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDataIniActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

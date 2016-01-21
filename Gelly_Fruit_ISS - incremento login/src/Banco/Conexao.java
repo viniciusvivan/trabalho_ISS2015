@@ -25,9 +25,9 @@ public class Conexao {
     public ResultSet rs;
     
     private String driver = "com.mysql.jdbc.Driver";//identifica qual banco estou usando
-    private String caminho = "jdbc:mysql://localhost:3306/iss";//caminho do banco
+    private String caminho = "jdbc:mysql://localhost:3306/sqlgellyfruit";//caminho do banco
     private String usuario = "root";//usuario do banco
-    private String senha = "GUItar1234Solo";//senha do usuario do banco
+    private String senha = "larissa";//senha do usuario do banco
     public Connection conn;//objeto conn para efetuar a conexão com o banco
     
     public void conexao(){//metodo responsabel por realisar a conexao com o banco
