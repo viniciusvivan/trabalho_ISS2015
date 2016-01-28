@@ -25,7 +25,6 @@ public class VPrincipal extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -34,7 +33,6 @@ public class VPrincipal extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem17 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem23 = new javax.swing.JMenuItem();
@@ -140,14 +138,6 @@ public class VPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem11);
 
-        jMenuItem16.setText("Vendas");
-        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem16ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem16);
-
         jMenuItem18.setText("Compra de Matéria Prima");
         jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -207,14 +197,6 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem15);
-
-        jMenuItem17.setText("Vendas");
-        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem17ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem17);
 
         jMenuItem19.setText("Estoque de Matéria Prima");
         jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
@@ -366,23 +348,6 @@ public class VPrincipal extends javax.swing.JFrame {
         frmRelEntDis.setPosicao(); 
     }//GEN-LAST:event_jMenuItem15ActionPerformed
 
-    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        // TODO add your handling code here:
-        JVVenda frmVenda = new JVVenda();
-         jDesktopPane.add(frmVenda);
-         frmVenda.setVisible(true);
-         frmVenda.setPosicao();
-    }//GEN-LAST:event_jMenuItem16ActionPerformed
-
-    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        // TODO add your handling code here:
-        BuscaVenda busca = new BuscaVenda();
-        
-        VPrincipal.jDesktopPane.add(busca);
-        busca.setVisible(true);
-        busca.setPosicao();
-    }//GEN-LAST:event_jMenuItem17ActionPerformed
-
     private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
         // TODO add your handling code here:
         JVComprarMateriaPrima frmFabricacao = new JVComprarMateriaPrima();
@@ -467,8 +432,6 @@ public class VPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;

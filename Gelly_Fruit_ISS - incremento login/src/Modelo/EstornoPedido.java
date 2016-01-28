@@ -82,5 +82,9 @@ public class EstornoPedido {
     public void Concluir(int codigo) {
         EstornoPedidoDAO.Concluir(codigo);
     }
+
+    public void Excluir_PedidoEntregue(int codigo) {
+        EstornoPedidoDAO.Excluir_PedidoEntregue(codigo);
+    }
     
 }

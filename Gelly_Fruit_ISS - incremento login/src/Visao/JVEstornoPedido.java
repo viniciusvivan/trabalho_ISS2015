@@ -8,8 +8,11 @@ package Visao;
 
 import Controle.CEstornoPedido;
 import java.awt.Dimension;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -183,7 +186,11 @@ public class JVEstornoPedido extends javax.swing.JInternalFrame {
 
                 //criando o controller da aplicação para efetuar a chamada da consulta
                 CEstornoPedido CntrlPedido = new CEstornoPedido();
+            try {
                 objTabela = CntrlPedido.PesquisaObjeto(Parametros,objTabela);
+            } catch (ParseException ex) {
+                Logger.getLogger(JVEstornoPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 //atribuindo tabela ao JTable
                 tabelaEstorno.setModel(objTabela);
             }
@@ -197,15 +204,22 @@ public class JVEstornoPedido extends javax.swing.JInternalFrame {
 
     private void BotaoConcluir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoConcluir1ActionPerformed
         //botão CONCLUIR
-        int podeExcluir = JOptionPane.showConfirmDialog(rootPane,"Tem certeza que deseja estornar este pedido?","Meu Programa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (txtCodigo.getText().equals("") || txtCodigo.getText() == null){
+            JOptionPane.showMessageDialog(null,"Selecione algum Pedido !!!","Alerta",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            int podeExcluir = JOptionPane.showConfirmDialog(rootPane,"Tem certeza que deseja estornar este pedido?","Meu Programa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 
-        if(podeExcluir == 0 ){
-            CEstornoPedido centrega = new CEstornoPedido();
-            centrega.Concluir(Integer.parseInt(txtCodigo.getText()));
+            if(podeExcluir == 0 ){
+                CEstornoPedido centrega = new CEstornoPedido();
+                centrega.Concluir(Integer.parseInt(txtCodigo.getText()));
+                centrega.Excluir_PedidoEntregue(Integer.parseInt(txtCodigo.getText()));
 
-            JOptionPane.showMessageDialog(null,"Pedido Estornado com Sucesso !","",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Pedido Estornado com Sucesso !","",JOptionPane.INFORMATION_MESSAGE);
+                LimpaCampos();
+            }
             LimpaCampos();
         }
+        
         
         
         

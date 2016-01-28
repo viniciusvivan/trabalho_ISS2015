@@ -60,7 +60,7 @@ public class JVRel_Cliente extends javax.swing.JInternalFrame {
         jLabel2.setText("Descrição: ");
 
         btmPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Png 32 x 32/Search File.png"))); // NOI18N
-        btmPesquisar.setText("Pesquisar Pedidos");
+        btmPesquisar.setText("Pesquisar Clientes");
         btmPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmPesquisarActionPerformed(evt);

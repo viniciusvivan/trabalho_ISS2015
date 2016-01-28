@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -41,7 +43,11 @@ public class CRel_ReajusteFrete {
             vetVetor = new Vector<String>();
             objPedidoBuffer = Reajuste.get(i);
             
-            vetVetor.addElement(String.valueOf(objPedidoBuffer.getData()));
+            try {
+                vetVetor.addElement(Converte_Data(objPedidoBuffer.getData()));
+            } catch (ParseException ex) {
+                Logger.getLogger(CRel_ReajusteFrete.class.getName()).log(Level.SEVERE, null, ex);
+            }
             vetVetor.addElement(String.valueOf(objPedidoBuffer.getPercentual()));
             ModeloTabela.addRow(vetVetor);
         }
@@ -61,4 +67,12 @@ public class CRel_ReajusteFrete {
         }  
         return date;  
     } 
+    
+    private static String Converte_Data(String data) throws ParseException { 
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = inputFormat.parse(data);
+        String outputDateStr = outputFormat.format(date);
+        return outputDateStr;	
+    }
 }

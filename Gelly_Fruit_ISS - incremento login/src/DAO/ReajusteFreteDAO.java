@@ -50,8 +50,6 @@ public class ReajusteFreteDAO {
                
                 reajustefrete.setPercentual(conecta.rs.getString("PERCENTUAL_REAJUSTEFRETE"));
                 reajustefrete.setData(conecta.rs.getString("DATA_REAJUSTEFRETE"));
-
-
                 
                 reajuste.add(reajustefrete);
                 reajustefrete = null;

@@ -6,10 +6,14 @@
 
 package Visao;
 
+import Banco.Conexao;
 import Controle.CRel_PedEndDistr;
 import java.awt.Dimension;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +28,7 @@ public class JVRel_PedEndDistr extends javax.swing.JInternalFrame {
      */
     public JVRel_PedEndDistr() {
         initComponents();
+        Carrega_Combo();
     }
 
     /**
@@ -47,7 +52,11 @@ public class JVRel_PedEndDistr extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Forma de Distribuição: ");
 
-        cbxDistr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Entrega", "Retira no local" }));
+        cbxDistr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxDistrActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Png 32 x 32/klpq.png"))); // NOI18N
         jButton2.setText("Gerar PDF / Imprimir");
@@ -115,7 +124,7 @@ public class JVRel_PedEndDistr extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -162,6 +171,10 @@ public class JVRel_PedEndDistr extends javax.swing.JInternalFrame {
         this.dispose();//fecha a tela
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void cbxDistrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDistrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxDistrActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox cbxDistr;
@@ -187,4 +200,24 @@ public class JVRel_PedEndDistr extends javax.swing.JInternalFrame {
         ColunasTabela.add("Valor Total");        
         return ColunasTabela;
     }
+    
+    public void Carrega_Combo() {
+        Conexao conecta = new Conexao();
+        conecta.conexao();  
+        //Distribuicoes distribuicao = new Distribuicoes();
+        conecta.executaSQL("select NOME_DISTRIBUICAO from DISTRIBUICAO");
+        try {
+            while(conecta.rs.next()){//rs é o que recebe os resultados da consulta
+                cbxDistr.addItem(conecta.rs.getString("NOME_DISTRIBUICAO"));
+                //distribuicao.setId_Produto(Integer.parseInt(conecta.rs.getString("cod_Produto")));                
+            }
+            conecta.rs.close();
+            conecta.desconecta();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JVRel_PedEndDistr.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+  
 }

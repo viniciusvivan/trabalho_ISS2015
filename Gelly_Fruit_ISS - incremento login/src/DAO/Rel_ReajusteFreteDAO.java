@@ -30,6 +30,8 @@ import net.sf.jasperreports.view.JasperViewer;*/
 public class Rel_ReajusteFreteDAO {
 
     public static ArrayList<Rel_ReajusteFrete> PesquisaObjeto(Date dataini, Date datafim) {
+        System.out.println("dataIni = " + dataini);
+        System.out.println("datafim = " + datafim);
         Conexao conecta = new Conexao();
         conecta.conexao();
         

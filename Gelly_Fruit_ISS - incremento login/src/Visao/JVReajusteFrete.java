@@ -182,9 +182,7 @@ public class JVReajusteFrete extends javax.swing.JInternalFrame {
                 Registro.add(Converte_Data(txtData.getText().toString()));
             } catch (ParseException ex) {
                 Logger.getLogger(JVReajusteFrete.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
+            }                     
             
             CReajusteFrete creajuste = new CReajusteFrete();
             creajuste.Novo(Registro);

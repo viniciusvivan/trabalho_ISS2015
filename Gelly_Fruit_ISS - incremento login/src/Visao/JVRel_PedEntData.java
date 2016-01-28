@@ -7,14 +7,11 @@
 package Visao;
 
 import Controle.CRel_PedData;
-import Controle.CRel_PedEndDistr;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.MaskFormatter;
 
 /**
  *

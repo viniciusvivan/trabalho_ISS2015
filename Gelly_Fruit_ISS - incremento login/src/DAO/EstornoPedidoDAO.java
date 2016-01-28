@@ -71,5 +71,18 @@ public class EstornoPedidoDAO {
         }      
         conecta.desconecta();
     }
+
+    public static void Excluir_PedidoEntregue(int codigo) {
+        Conexao conecta = new Conexao();
+        conecta.conexao(); 
+        try {
+            PreparedStatement pst = conecta.conn.prepareStatement("DELETE FROM pedido_entregue WHERE cod_pedido = ?");
+            pst.setInt(1, codigo);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            //Logger.getLogger(Produtos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        conecta.desconecta();
+    }
     
 }

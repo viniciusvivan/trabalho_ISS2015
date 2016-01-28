@@ -45,10 +45,10 @@ public class JVCadClienteTest {
     public void testValidaCamposTeste() {
         System.out.println("validaCamposTeste");
         String nome = "Larissa";
-        String end = "";
-        String bairro = "Zona 666";
-        String municipio = "Inferno";
-        String cep = "87030666";
+        String end = "Rua Rio Iguaçu";
+        String bairro = "Zona 6";
+        String municipio = "Maringá";
+        String cep = "87020220";
         String estado = "PR";
         String tel = "4432222220";
         String frete = "10";

@@ -7,6 +7,7 @@
 package Controle;
 
 import Modelo.EstornoPedido;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CEstornoPedido {
         this.objEstornoP = new EstornoPedido();
     }
 
-    public DefaultTableModel PesquisaObjeto(ArrayList<String> Parametros, DefaultTableModel ModeloTabela) {
+    public DefaultTableModel PesquisaObjeto(ArrayList<String> Parametros, DefaultTableModel ModeloTabela) throws ParseException {
         //decodificando o array list em variáveis
         String Campo = Parametros.get(0);//criando variaveis 
         String id = Parametros.get(1);
@@ -44,7 +45,7 @@ public class CEstornoPedido {
             objClientesBuffer = Cliente.get(i);
             
             vetVetor.addElement(String.valueOf(objClientesBuffer.getCod_Pedido()));
-                  vetVetor.addElement(objClientesBuffer.getData_fechamento());
+            vetVetor.addElement(Converte_Data(objClientesBuffer.getData_fechamento()));
             vetVetor.addElement(objClientesBuffer.getNome_cliente());
             vetVetor.addElement(String.valueOf(objClientesBuffer.getValor_total()));
             vetVetor.addElement(objClientesBuffer.getForma_entrega());
@@ -60,4 +61,16 @@ public class CEstornoPedido {
     public void Concluir(int codigo) {
         this.objEstornoP.Concluir(codigo);
     }
+    
+    public void Excluir_PedidoEntregue(int codigo) {
+        this.objEstornoP.Excluir_PedidoEntregue(codigo);
+    }
+    
+    private static String Converte_Data(String data) throws ParseException { 
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = inputFormat.parse(data);
+        String outputDateStr = outputFormat.format(date);
+        return outputDateStr;	
+    }    
 }

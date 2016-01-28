@@ -313,7 +313,7 @@ public class JVControleEntrega extends javax.swing.JInternalFrame {
     private void BotaoConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoConcluirActionPerformed
         //botão Concluir        
         if (txtCod.getText().equals("") || txtCod.getText() == null){
-            JOptionPane.showMessageDialog(null,"Selecione um Pedido !!!","Alerta",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Nenhum Pedido Selecionado !","Alerta",JOptionPane.INFORMATION_MESSAGE);
         }else{
             CControleEntrega centrega = new CControleEntrega();
             centrega.Atualiza(Integer.parseInt(txtCod.getText()));
