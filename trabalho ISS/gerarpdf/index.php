@@ -8,7 +8,7 @@ $frete = $_GET['frete'];
 
 $id_venda = $_GET['id_venda'];
 
-$sql = "UPDATE venda SET pagamento_Venda = 'Boleto', status_Venda= '2' WHERE id_venda = '$id_venda'";
+$sql = "UPDATE venda SET pagamento_Venda = 'Boleto' WHERE id_venda = '$id_venda'";
 $qry = mysqli_query($conexao, $sql);
 
 $data_hora = date('d/m/Y H:i', strtotime(date('d-m-Y H:i:s')));

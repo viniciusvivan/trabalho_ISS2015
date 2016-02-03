@@ -18,8 +18,10 @@ if(isset($_GET['data_inicial'])){
     $status = $_GET['status'];
 }
 
-if(strtotime($data_inicial) > strtotime($data_final)){
-    print "<script>location.href='relatorio.php?data_inicial=&data_final=&id_cliente=$cliente&id_produto=$produto&status=$status'; alert('Erro: Data inicial maior que data final');</script>";
+if($data_final != ""){
+    if(strtotime($data_inicial) > strtotime($data_final)){
+        print "<script>location.href='relatorio.php?data_inicial=&data_final=&id_cliente=$cliente&id_produto=$produto&status=$status'; alert('Erro: Data inicial maior que data final');</script>";
+    }
 }
 
 //*************Formulario da clausula WHERE de acordo com os parametros setados***********************************
@@ -50,8 +52,14 @@ if($produto != ""){
 }
 if($status != ""){
     $status = $_GET["status"];
-    if($flag == "y") $where = $where." AND status_Venda = $status";
-    else $where = $where." status = $status";
+    if($flag == "y"){
+        if($status == 6) $where = $where." AND (status_Venda = 6 or status_Venda = 7 or status_Venda = 10)";
+        else $where = $where." AND status_Venda = $status";
+    }
+    else{
+        if($status == 6) $where = $where." status_Venda = 6 or status_Venda = 7 or status_Venda = 10";
+        else $where = $where." status_Venda = $status";
+    }
     $flag = "y";
 }
 if($where == "WHERE") $where = "";
@@ -74,10 +82,11 @@ if($where == "WHERE") $where = "";
     <span class="texto_pequeno" style="margin: 10px 0 0 790px; position: absolute">Sistema de distribuição de geladinhos</span>
 </header>
 <nav style="width: 100%; background-color: #f1f1f1; height: 40px">
-    <table style=" position: absolute; margin: 0 870px 0 870px">
+    <table style=" position: absolute; margin: 0 820px 0 820px">
         <tr>
             <td><a href="vendas.php"><input style="margin-right: 10px" type="button" class="btn btn-default" value="Vendas"></a></td>
             <td><a href="relatorio.php"><input style="margin-left: 10px" type="button" class="btn btn-default" value="Relatórios"></a></td>
+            <td><a href="../view/ajuda.html" target="_blank"><input style="margin-left: 18px" type="button" class="btn btn-default" value="Ajuda"></a></td>
         </tr>
     </table>
 </nav>
@@ -138,6 +147,9 @@ if($where == "WHERE") $where = "";
                 <option id="status" value="1" <?php if(isset($_GET['status'])){if($status == '1') echo "selected";}?>>Aguardando pagamento</option>
                 <option id="status" value="2" <?php if(isset($_GET['status'])){if($status == '2') echo "selected";}?>>Aguardando entrega</option>
                 <option id="status" value="3" <?php if(isset($_GET['status'])){if($status == '3') echo "selected";}?>>Concluido</option>
+                <option id="status" value="4" <?php if(isset($_GET['status'])){if($status == '4') echo "selected";}?>>Devolvido</option>
+                <option id="status" value="5" <?php if(isset($_GET['status'])){if($status == '5') echo "selected";}?>>Excluido</option>
+                <option id="status" value="6" <?php if(isset($_GET['status'])){if($status == '6') echo "selected";}?>>Em andamento</option>
             </select>
         </div>
         <input class="btn btn-success" type='submit' name='acao' id='acao' value='Filtrar' style='color:white;font-weight: bolder;position: relative; margin: -70px 0 0 800px'/>
@@ -176,16 +188,30 @@ if($where == "WHERE") $where = "";
             $slq_cliente = "SELECT nome_cliente FROM cliente WHERE id_cliente = $vendas[cod_Cliente]";
             $qry_cliente = mysqli_query($conexao, $slq_cliente);
             $cliente = mysqli_fetch_assoc($qry_cliente);
-            $nome = $cliente['nome_cliente'];?>
-            <tr>
+            $nome = $cliente['nome_cliente'];
+            if($vendas['status_Venda'] == 1){
+            echo "<tr style='background-color: rgba(92, 184, 92, 0.42)'>";
+                }else if($vendas['status_Venda'] == 2){
+                    echo "<tr style='background-color: rgba(255, 186, 80, 0.77)'>";
+                }else if($vendas['status_Venda'] == 3){
+                    echo "<tr style='background-color: rgba(59, 192, 255, 0.29)'>";
+                }else if($vendas['status_Venda'] == 4){
+                    echo "<tr style='background-color: rgb(255, 255, 255)'>";
+                }else if($vendas['status_Venda'] == 5){
+                    echo "<tr style='background-color: rgba(255, 0, 0, 0.4)'>";
+                }else if($vendas['status_Venda'] == 6 or $vendas['status_Venda'] == 10 or $vendas['status_Venda'] == 7){
+                    echo "<tr style='background-color: rgba(222, 42, 255, 0.17)'>";
+                }else{
+                echo "<tr>";
+                }?>
                 <td align='center'><p class='txt-produto'><?php echo $vendas['id_venda'] ?></p></td>
                 <td align='center'><p class='txt-produto'><?php echo $nome?></p></td>
                 <td align='center'><p class='txt-produto'><?php echo $data?></p></td>
                 <td align='center'><p class='txt-produto'><?php echo 'R$'.$subtotal?></p></td>
                 <td align='center'><p class='txt-produto'><?php echo 'R$'.$frete?></p></td>
                 <td align='center'><p class='txt-produto'><?php echo 'R$'.$total?></p></td>
-                <td align='center'><p class='txt-produto'><?php if($vendas['status_Venda'] == 1){echo "Aguardando pagamento";}elseif($vendas['status_Venda'] == 2){echo "Aguando entrega";}else{echo "Concluido";}?></p></td>
-                <td align='center'><a href="produtos.php?id_venda=<?php echo $vendas['id_venda']?>&id_cliente=<?php echo $vendas['cod_Cliente']?>" target="_blank"><button type='button' class='btn btn-info' style='color:white; font-weight: bolder; margin: 4px'>Produtos</button></a></td>
+                <td align='center'><p class='txt-produto'><?php if($vendas['status_Venda'] == 1){echo "Aguardando pagamento";}elseif($vendas['status_Venda'] == 2){echo "Aguardando entrega";}elseif($vendas['status_Venda'] == 3){echo "Concluído";}elseif($vendas['status_Venda'] == 4){echo "Devolvido";}elseif($vendas['status_Venda'] == 6 or $vendas['status_Venda'] == 10 or $vendas['status_Venda'] == 7){echo "Em andamento";}else{echo "Excluido";}?></p></td>
+                <td style="background-color: #ebebeb;" align='center'><a href="produtos.php?id_venda=<?php echo $vendas['id_venda']?>&id_cliente=<?php echo $vendas['cod_Cliente']?>" target="_blank"><button type='button' class='btn btn-info' style='color:white; font-weight: bolder; margin: 4px'>Produtos</button></a></td>
 
             </tr>
         <?php } ?>

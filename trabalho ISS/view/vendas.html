@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="pt-br">
+    <meta charset="UTF-8">
+    <title>Pagamento</title>
+    <link href="bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="bootstrap-3.3.4/css/bootstrap-select.css">
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
+</head>
+<body>
+<header>
+    <span class="texto_pequeno">Sistema de distribuição de geladinhos</span>
+    <a href="login.html"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:600px;">Login</button></a>
+    <a href="cadastro_cliente.html"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;">Cadastre-se</button></a>
+    <a href="index.php"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;">Pesquisar venda</button></a>
+</header>
+<section class="corpo">
+    <h1 class="texto_grande">Laçamento de venda</h1>
+    <hr>
+    <div class="box_form">
+        <div id="tam_cadastro_clientes">
+            <form role="form" method="post" action="vendas.php">
+                <div class="box_externo">
+                    <h3>Dados da venda</h3>
+                    <div class="dados_cliente">
+                        <label>Data:</label>
+                        <input type="text" class="form-control-peq" id="data_venda" value="<?php echo $data?>" disabled>
+                    </div>
+                    <div class="dados_cliente">
+                        <label>Cliente:</label>
+                        <select class="form-control" id="id_cliente" name="id_cliente" required>
+                            <option id="cliente" value="">Selecione o cliente</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+
+                <div id="box_externo">
+                    <div class="dados_cliente">
+                        <label>Selecione os Produtos</label>
+                                <select class="form-control" id="produto" name="produto" required>
+                                    <option id="produto" value="">Selecione um produto</option>
+                                </select>
+                    </div>
+
+                    <div class="dados_cliente">
+                        <label>Quantidade*</label>
+                        <input type="number" id="txt_quantidade" name="txt_quantidade" class="form-control" placeholder="Digite a quantidade" required>
+                    </div>
+                    <div id="box_peq">
+                        <h3 align="left" style="display: inline">Subtotal: R$</h3>
+
+                    </div>
+                    <input class="btn btn-success" type='submit' name='acao' id='acao' value='Adicionar produto' style='color:white; font-weight: bolder;position: relative; margin: -80px 0 0 430px'/>
+                </div>
+                <hr>
+            </form>
+
+
+            <table border='1' bordercolor='#484848' class="produtos-adicionados">
+                <tr style="font-weight:bold;background:#484848;color:#FFF;">
+                    <td colspan="3"><p class="txt-produto"><p align="center"><b>Produtos adicionados</b></p></td>
+                </tr>
+                <tr>
+                    <td width="100" align="center"><p class="txt-produto"><b>Quantidade</b></p></td>
+                    <td width="450" align="center"><p class="txt-produto"><b>Produto</b></p></td>
+                    <td width="150" align="center"><p class="txt-produto"><b>Excluir</b></p></td>
+                </tr>
+                    <tr>
+                        <td align='center'><p class='txt-produto'>$volume</p></td>
+                        <td align='center'><p class='txt-produto'>$produto_nome[desc_Produto]</p></td>
+                        <td align='center'><p class='txt-produto'><a href='vendas.php?flag=true&custo=$preco_custo_remove&quant=$volume&i=$i&id_cliente=$id_select'><button type='button' class='btn btn-danger navbar-btn' style='color:white; font-weight: bolder'>Excluir</button></a></p></td>
+                    </tr>
+            </table>
+
+
+
+            <a href=".php"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;">Pagar</button></a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

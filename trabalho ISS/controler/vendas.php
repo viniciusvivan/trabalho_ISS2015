@@ -2,8 +2,11 @@
 session_start();
 
 include("../DAO/conexao.php");
+
 date_default_timezone_set('America/Sao_Paulo');
 $data = date('d/m/Y', strtotime(date('d-m-Y')));
+
+$flag_repeticao = true;
 
 $cli_selecionado = false;
 if(isset($_POST['id_cliente'])){
@@ -39,15 +42,32 @@ if(isset($_GET['flag'])){
     if(isset($_POST['produto'])){
         $id_post = $_POST['produto'];
         if ($_POST['txt_quantidade'] != null and $_POST['txt_quantidade'] > 0) {
-            $quantidade = $_POST['txt_quantidade'];
-            $_SESSION['lista_produtos'][$_SESSION['indice']] = $id_post;
-            $_SESSION['quantidade_produtos'][$_SESSION['indice']] = $quantidade;
-
-            $sql_preco_custo = "SELECT preco_Produto FROM produto WHERE cod_Produto = $id_post";
-            $qry_preco_custo = mysqli_query($conexao, $sql_preco_custo);
-            $preco_custo_post = mysqli_fetch_assoc($qry_preco_custo);
-            $_SESSION['total_custo'] += $preco_custo_post['preco_Produto'] * $quantidade;
-            $_SESSION['indice']++;
+            for($i=-1; $i <= count($_SESSION['lista_produtos']) - 2; $i++){
+                if($id_post == $_SESSION['lista_produtos'][$i]){
+                    print "<script type = 'text/javascript'> alert('Este produto já foi inserido!')</script>";
+                    $flag_repeticao = false;
+                    break;
+                }
+                //echo $_SESSION['lista_produtos'][$i];
+                //echo "i= ".$i." ------- tam=".count($_SESSION['lista_produtos'])."</br>";
+            }
+            if($flag_repeticao){
+                $quantidade = $_POST['txt_quantidade'];
+                $sql_quant_produto = "SELECT qnt_produto FROM produto WHERE cod_Produto = $id_post";
+                $qry_quant_produto = mysqli_query($conexao, $sql_quant_produto);
+                $p_estoque = mysqli_fetch_assoc($qry_quant_produto);
+                $estoque = $p_estoque['qnt_produto'];
+                $_SESSION['lista_produtos'][$_SESSION['indice']] = $id_post;
+                $_SESSION['quantidade_produtos'][$_SESSION['indice']] = $quantidade;
+                if($estoque < $quantidade){
+                    print "<script type = 'text/javascript'> alert('Atenção: possuímo apenas $estoque unidades deste produto em estoque. Caso não queira esperar, escolha uma quantidade menor ou remova este produto deste pedido')</script>";
+                }
+                $sql_preco_custo = "SELECT preco_Produto FROM produto WHERE cod_Produto = $id_post";
+                $qry_preco_custo = mysqli_query($conexao, $sql_preco_custo);
+                $preco_custo_post = mysqli_fetch_assoc($qry_preco_custo);
+                $_SESSION['total_custo'] += $preco_custo_post['preco_Produto'] * $quantidade;
+                $_SESSION['indice']++;
+            }
         } elseif ($_POST['txt_quantidade'] == null) {
             print "<script type = 'text/javascript'> alert('Digite a quantidade!')</script>";
         } elseif ($_POST['txt_quantidade'] <= 0) {
@@ -76,15 +96,16 @@ if(isset($_GET['flag'])){
     <span class="texto_pequeno" style="margin: 10px 0 0 790px; position: absolute">Sistema de distribuição de geladinhos</span>
 </header>
 <nav style="width: 100%; background-color: #f1f1f1; height: 40px">
-    <table style=" position: absolute; margin: 0 870px 0 870px">
+    <table style=" position: absolute; margin: 0 820px 0 820px">
         <tr>
             <td><a href="vendas.php"><input style="margin-right: 10px" type="button" class="btn btn-default" value="Vendas"></a></td>
             <td><a href="relatorio.php"><input style="margin-left: 10px" type="button" class="btn btn-default" value="Relatórios"></a></td>
+            <td><a href="../view/ajuda.html" target="_blank"><input style="margin-left: 18px" type="button" class="btn btn-default" value="Ajuda"></a></td>
         </tr>
     </table>
 </nav>
 <section class="corpo">
-    <h1 class="texto_grande" style="display: inline-block; margin-left: 25px">Laçamento de venda</h1>
+    <h1 class="texto_grande" style="display: inline-block; margin-left: 25px">Lançamento de venda</h1>
     <a href="listar_vendas.php" style="display: inline; margin-top: 10px; position: absolute; margin-left: 450px"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;">Pesquisar venda</button></a>
     <hr>
     <div class="box_form">
@@ -144,7 +165,7 @@ if(isset($_GET['flag'])){
                                 <h3 align="left">Total: R$ <?php echo number_format($_SESSION['total_custo']+$frete, 2, ',', '.');?></h3>
                         <?php } ?>
                     </div>
-                    <input class="btn btn-success" type='submit' name='acao' id='acao' value='Adicionar produto' style='color:white; font-weight: bolder;position: relative; margin: -80px 0 0 430px'/>
+                    <input class="btn btn-success" type='submit' name='acao' id='acao' value='Adicionar produto' style='color:white; font-weight: bolder;position: absolute; margin: -45px 0 0 422px'/>
                 </div>
                 <hr>
             </form>
@@ -181,12 +202,12 @@ if(isset($_GET['flag'])){
             </table>
 
 
-            <?php if($cli_selecionado){?>
-                <a href="../DAO/DAOvendas.php?id_cli=<?php echo $id_select?>&frete=<?php echo $frete?>&subt=<?php echo $_SESSION['total_custo']?>&acao=gravar&pagar=s"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;">Concluir e pagar</button></a>
-                <a href="../DAO/DAOvendas.php?id_cli=<?php echo $id_select?>&frete=<?php echo $frete?>&subt=<?php echo $_SESSION['total_custo']?>&acao=gravar&pagar=n"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;">Concluir venda</button></a>
+            <?php if($cli_selecionado and $_SESSION['total_custo'] > $frete){?>
+                <a href="../DAO/DAOvendas.php?id_cli=<?php echo $id_select?>&frete=<?php echo $frete?>&subt=<?php echo $_SESSION['total_custo']?>&acao=gravar&pagar=s"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:0px;">Concluir e pagar</button></a>
+                <a href="../DAO/DAOvendas.php?id_cli=<?php echo $id_select?>&frete=<?php echo $frete?>&subt=<?php echo $_SESSION['total_custo']?>&acao=gravar&pagar=n"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:3px;">Concluir venda</button></a>
             <?php }else{?>
-                <a href="#"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;" disabled>Concluir e pagar</button></a>
-                <a href="#"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:10px;" disabled>Concluir venda</button></a>
+                <a href="#"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:0px;" disabled>Concluir e pagar</button></a>
+                <a href="#"><button type="button" class="btn btn-default navbar-btn" style="color:#333333;float:right;margin-right:3px;" disabled>Concluir venda</button></a>
             <?php } ?>
         </div>
     </div>
